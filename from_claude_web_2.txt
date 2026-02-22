@@ -1,0 +1,65 @@
+Ok, compellison sync but comprehensive list of the equations required for modeling the structure of a tree include a list of all the parameters and how they vary between several tree species
+
+
+
+# Tree Structure Modeling Equations
+
+## Core Equations
+
+**1. Allometric Scaling (trunk/branch radius)**
+$$r = r_0 \cdot \left(\frac{L}{L_0}\right)^{\alpha}$$
+
+**2. Da Vinci's Rule (branch cross-sections)**
+$$\sum_{i} d_i^n = d_{\text{parent}}^n, \quad n \approx 2\text{–}3$$
+
+**3. Branch Length Decay**
+$$L_k = L_0 \cdot \lambda^k \quad (k = \text{branching order})$$
+
+**4. Branching Angle**
+$$\theta_k = \theta_0 + \Delta\theta \cdot k$$
+
+**5. Trunk Taper**
+$$d(h) = d_{\text{base}} \cdot \left(1 - \frac{h}{H}\right)^{\beta}$$
+
+**6. Height–Diameter Relationship**
+$$H = a \cdot D^b$$
+
+**7. Crown Radius**
+$$R_c = c \cdot D^{e}$$
+
+**8. Phyllotaxis (branch spiral angle)**
+$$\phi = 137.5° \cdot g \quad (g = \text{divergence multiplier})$$
+
+**9. Number of Branches per Order**
+$$N_k = N_0 \cdot n_b^k$$
+
+---
+
+## Parameter Table by Species
+
+| Parameter | Symbol | Oak | Pine | Birch | Palm | Willow |
+|---|---|---|---|---|---|---|
+| Taper exponent | $\beta$ | 0.7 | 0.9 | 0.8 | ~0 (cylinder) | 0.6 |
+| Da Vinci exponent | $n$ | 2.0 | 2.5 | 2.2 | N/A | 1.8 |
+| Length ratio | $\lambda$ | 0.75 | 0.85 | 0.70 | N/A | 0.80 |
+| Branch angle | $\theta_0$ | 35°–50° | 25°–40° | 40°–55° | N/A | 50°–80° |
+| Branching order (max) | $k_{\max}$ | 6–8 | 4–6 | 5–7 | 0–1 | 5–7 |
+| Height–diam $a$ | $a$ | 25 | 30 | 28 | 15 | 18 |
+| Height–diam $b$ | $b$ | 0.6 | 0.5 | 0.55 | 0.8 | 0.5 |
+| Crown ratio $c$ | $c$ | 12 | 6 | 8 | 4 | 10 |
+| Crown exponent | $e$ | 0.6 | 0.5 | 0.55 | 0.7 | 0.65 |
+| Branches per node | $n_b$ | 2–4 | 2–3 | 2–3 | 1 | 3–5 |
+| Divergence mult. | $g$ | 1.0 | 0.5 | 1.0 | 1.0 | 1.0 |
+| Gravitropism (droop) | $\gamma$ | low | low | low | none | high |
+
+---
+
+## Key Notes
+
+- **L-systems** encode recursive branching: `F → F[+F][-F]` with $\theta, \lambda, n_b$ as params
+- **Gravity/phototropism** add perturbation: $\vec{d}_{\text{new}} = \vec{d} + \gamma\hat{g} + \tau\hat{s}$ (where $\hat{s}$ = sun direction)
+- **Leaf density** typically: $\rho_L \propto N_{k_{\max}} \cdot A_{\text{leaf}}$
+- Values above are **representative**; real modeling uses species-specific field data
+
+
+

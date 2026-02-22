@@ -1,0 +1,145 @@
+But how does the growth work? The diameter branches grows over time, does the length change at the same rate or does it remain constant? What happens to the ratios? Does the number of branching stay constant?
+
+
+
+# Branch Growth Dynamics
+
+## Length vs Diameter Growth
+
+**Key distinction:** Length and diameter grow by *different mechanisms* at *different rates*.
+
+- **Length growth** (primary/apical): occurs only at **tips** via apical meristems; once a branch segment elongates, **it stops lengthening**
+- **Diameter growth** (secondary/radial): occurs along the **entire branch** via the cambium layer; continues **every year**
+
+So: a branch that finished elongating 10 years ago is still getting *thicker* every year.
+
+## What happens to ratios?
+
+**Da Vinci's rule** (cross-sectional area conservation):
+
+$$d_p^2 \approx d_1^2 + d_2^2$$
+
+This ratio is **roughly maintained** over time because:
+- Parent and daughter branches all add ~similar ring widths each year
+- But since $d = d_0 + 2\Delta r \cdot t$, the *absolute* increase is the same, so the *ratio* $d_1/d_p$ **slowly shifts** toward 1 as all branches thicken
+
+**Example:**
+| Year | Parent $d_p$ | Child $d_1$ | Child $d_2$ | $d_1^2+d_2^2$ vs $d_p^2$ |
+|------|-------------|-------------|-------------|--------------------------|
+| 0 | 10 cm | 7 cm | 7 cm | 98 ≈ 100 ✓ |
+| 10 (+2cm all) | 12 cm | 9 cm | 9 cm | 162 vs 144 ⚠️ |
+
+The rule **degrades slightly** over time — trees compensate by allocating more growth to the trunk.
+
+## Does branching number stay constant?
+
+**No.** Over time:
+- New branches form (from dormant/adventitious buds)
+- Old branches **self-prune** (shaded interior branches die and drop)
+- Net effect: branching shifts **outward** toward the light
+
+**Typical pattern:**
+- Young tree: dense branching throughout
+- Mature tree: sparse interior, dense crown periphery
+
+## Summary
+
+| Property | Behavior over time |
+|----------|-------------------|
+| Branch length | Fixed after initial elongation |
+| Branch diameter | Increases continuously |
+| Length/diameter ratio | Decreases over time |
+| Area-preserving ratio | Approximately maintained, drifts slowly |
+| Number of branches | Dynamic — additions + pruning |
+
+
+
+Okay so how do we model this?
+
+
+
+# Modeling Branch Growth
+
+## 1. Single Branch Diameter Over Time
+
+Simple radial growth:
+
+$$d(t) = d_0 + 2 \cdot g(t)$$
+
+where $g(t)$ is cumulative ring width. Common forms:
+
+- **Linear:** $g(t) = r \cdot t$
+- **Saturating:** $g(t) = d_{max}(1 - e^{-kt})$
+
+## 2. Branching Structure (L-Systems)
+
+Recursive rewriting rules. Example:
+
+```
+Axiom:    F
+Rule:     F → F[+F][-F]
+```
+
+Each generation: `F` elongates, `[+F]` and `[-F]` spawn daughter branches at angle $\pm\theta$.
+
+**Add diameter** with the pipe model:
+
+$$d_p^\alpha = \sum_i d_i^\alpha \quad (\alpha \approx 2\text{–}2.5)$$
+
+## 3. Minimal Dynamic Model
+
+For each branch segment $j$ at time $t$:
+
+$$\frac{dd_j}{dt} = \frac{C \cdot A_{\text{leaves},j}}{L_j \cdot d_j}$$
+
+where:
+- $C$ = carbon allocation constant
+- $A_{\text{leaves},j}$ = leaf area supported downstream
+- $L_j$ = segment length
+- $d_j$ = current diameter
+
+**Intuition:** more leaves downstream → faster thickening.
+
+## 4. Self-Pruning
+
+Branch $j$ dies if its carbon balance goes negative:
+
+$$\text{photosynthesis}_j - \text{respiration}_j < 0$$
+
+$$P \cdot A_{\text{leaves},j} - m \cdot d_j^2 \cdot L_j < 0$$
+
+(Respiration scales with volume ∝ $d^2 L$; shaded branches lose the race.)
+
+## 5. Putting It Together (Pseudocode)
+
+```python
+for t in timesteps:
+    for branch in tree:
+        # grow diameter
+        branch.d += C * branch.leaf_area / (branch.L * branch.d)
+
+        # spawn new branches at tips?
+        if branch.is_tip and branch.age % branch_interval == 0:
+            spawn_children(branch, angle=θ, ratio=r)
+
+        # prune?
+        if branch.carbon_balance() < 0:
+            branch.die()
+
+    # enforce area-preservation
+    recompute_diameters(tree, alpha=2.3)
+```
+
+## Which Approach to Use?
+
+| Goal | Model |
+|------|-------|
+| Realistic visuals | L-systems + pipe model |
+| Ecological simulation | Carbon-balance model |
+| Quick approximation | $d(t) = d_0 + rt$ + static branching ratios |
+| Full research | Functional-structural plant models (FSPM), e.g., GroIMP, OpenAlea |
+
+Want me to build out any of these into working code?
+
+
+
