@@ -1,0 +1,55 @@
+# Step 3: Self-Pruning — Plan Summary
+
+## What We're Building
+
+Real trees shed their interior branches when they don't get enough light. We're adding this behavior to the simulator so the tree develops a realistic hollow crown over time, with living branches only at the outside edge.
+
+## How It Works
+
+The system works in four stages each year.
+
+First, we estimate the crown shape. We take all the living branch tips and fit a bounding ellipsoid around them. This gives us the crown center and how far it extends in each direction.
+
+Second, we estimate how much shade each branch gets. We're implementing three different strategies for this and will compare them to pick the best one.
+
+Strategy A, called ellipsoid, measures how deep inside the crown a branch is. It treats all directions equally. A branch near the center is fully shaded, a branch near the surface gets full light. This is the simplest approach but it doesn't account for the fact that light comes from above. A branch near the bottom edge of the crown would be considered well-lit even though it's actually shaded by everything above it.
+
+Strategy B, called vertical, only cares about vertical position. It measures how far below the top of the crown a branch is. Branches near the top get full light, branches near the bottom are shaded. This captures the idea that light comes from above, but it ignores horizontal position entirely.
+
+Strategy C, called combined, is the default and blends both approaches. A branch is considered shaded if it's either deep inside the crown or low in the crown. We take the maximum of the vertical shade and the radial depth shade. This way, low outer branches die because they're far below the crown top, and deep interior branches die because they're buried inside the crown, but top-of-crown branches survive because both scores are low.
+
+Third, we accumulate stress. If a terminal branch's shade score exceeds a threshold, say sixty percent, it's considered light-starved and its stress counter goes up by one. If it gets enough light, the stress resets to zero.
+
+Fourth, we kill branches. When a branch's stress reaches the tolerance limit, say two consecutive deficit years, it dies. All of its downstream sub-branches die too. Dead branches stay in the tree visually as gray stubs, but they stop growing, lose their buds, and contribute zero leaf area.
+
+The key insight is that only living terminal segments accumulate stress. These are the branches that bear leaves and actually need light. Interior structural branches like the trunk are never directly evaluated. When a terminal dies, its parent becomes the new terminal and may start accumulating stress the following year. This creates a gradual hollowing out from the inside.
+
+## New Parameters
+
+Crown depth threshold controls how deep a branch can be inside the crown before it's considered starved. Default is zero point six. Lower values mean more aggressive pruning.
+
+Stress tolerance is the number of consecutive deficit years before a branch dies. Default is two. Higher values are more forgiving.
+
+Pruning minimum age is how old the tree must be before pruning activates. Default is three years. Young trees shouldn't self-prune.
+
+Shade model selects which light estimation strategy to use. Default is combined. This is a code-level parameter, not exposed as a slider, so we can experiment with all three and pick the best default.
+
+## Changes to Existing Code
+
+The Segment data structure gets two new fields: stress, which tracks consecutive deficit years, and dead age, which tracks how many years a segment has been dead.
+
+The growth engine skips dead segments during aging. They don't transition from growing to mature and they don't process buds.
+
+The pipe model handles dead segments by giving them zero leaf area. This means the parent branches get thinner after their children die, which is realistic. Dead segments keep their diameter frozen from when they died.
+
+The renderer draws dead segments in a lighter gray-brown color instead of the dark brown used for living wood.
+
+The simulation loop inserts the pruning step between growth and diameter computation each year.
+
+## Files Involved
+
+Tree dot py gets two new fields on the Segment class. Params dot py gets three new pruning parameters with slider metadata. A new file, pruning dot py, contains all the pruning logic: crown envelope estimation, crown depth computation, stress accumulation, and the kill function. Growth dot py gets a small change to skip dead segments. Pipe model dot py is updated to handle dead segments properly. Simulation dot py adds the pruning call to the annual loop. Renderer dot js adds conditional coloring for dead segments. And the test file gets a new test class for pruning behavior.
+
+## Verification
+
+All existing tests should still pass. New tests verify that interior branches die, that pruning respects the minimum age, that dead segments have zero leaf area, that dead nodes have no buds, that results are deterministic, and that tuning the parameters changes the pruning behavior as expected. We'll also run the simulation with all three shade models at twelve years, compare dead segment counts and positions, and pick the one that produces the most realistic looking crown. The combined model should thin the interior and drop lower branches, which is what real cherry trees do.

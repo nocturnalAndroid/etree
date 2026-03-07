@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eTree — Growth Simulator</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <aside id="sidebar">
+        <h1>eTree</h1>
+        <div id="preset-bar">
+            <select id="preset-select"></select>
+            <button id="preset-save" type="button">Save</button>
+            <button id="preset-delete" type="button">Del</button>
+        </div>
+        <div id="sliders"></div>
+        <button id="run-btn">Run Simulation</button>
+        <div id="status"></div>
+    </aside>
+    <main id="grid"></main>
+
+    <script src="/static/sliders.js"></script>
+    <script src="/static/renderer.js"></script>
+    <script src="/static/app.js"></script>
+</body>
+</html>
