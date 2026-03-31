@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Time-Lapse Control</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Time-Lapse</h1>
+    <section class="card" id="status-section">
+      <div class="status-row">
+        <div class="status-indicator" id="status-dot"></div>
+        <span class="status-label" id="status-label">Stopped</span>
+      </div>
+      <div class="status-details">
+        <div class="stat"><span class="stat-value" id="photo-count">0</span><span class="stat-label">Photos</span></div>
+        <div class="stat"><span class="stat-value" id="elapsed-time">—</span><span class="stat-label">Elapsed</span></div>
+        <div class="stat"><span class="stat-value" id="next-capture">—</span><span class="stat-label">Next</span></div>
+      </div>
+    </section>
+    <section class="card" id="photo-section">
+      <h2>Last Photo</h2>
+      <div class="photo-container">
+        <img id="last-photo" src="" alt="" style="display:none;">
+        <div id="no-photo" class="no-photo">No photos yet</div>
+      </div>
+    </section>
+    <section class="card">
+      <button id="start-btn" class="btn btn-start" onclick="startSession()">Start Recording</button>
+      <button id="stop-btn" class="btn btn-stop" onclick="stopSession()" style="display:none;">Stop Recording</button>
+    </section>
+    <section class="card" id="config-section">
+      <h2>Configuration</h2>
+      <div class="form-group">
+        <label for="interval-value">Capture Interval</label>
+        <div class="interval-row">
+          <input type="number" id="interval-value" class="input" value="30" min="1" max="9999">
+          <select id="interval-unit" class="select">
+            <option value="seconds">Seconds</option>
+            <option value="minutes">Minutes</option>
+            <option value="hours">Hours</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="camera-select">Camera</label>
+        <select id="camera-select" class="select select-full"><option value="">Loading cameras…</option></select>
+      </div>
+      <div class="form-group">
+        <label for="wb-select">White Balance</label>
+        <select id="wb-select" class="select select-full">
+          <option value="auto">Auto</option>
+          <option value="daylight">Daylight</option>
+          <option value="cloudy">Cloudy</option>
+          <option value="shade">Shade</option>
+          <option value="fluorescent">Fluorescent</option>
+          <option value="incandescent">Incandescent</option>
+          <option value="tungsten">Tungsten</option>
+        </select>
+      </div>
+    </section>
+    <section class="card" id="upload-section">
+      <h2>Upload Status</h2>
+      <div class="upload-row">
+        <div class="upload-stat"><span class="upload-value" id="upload-pending">0</span><span class="upload-label">Pending</span></div>
+        <div class="upload-stat"><span class="upload-value upload-failed" id="upload-failed">0</span><span class="upload-label">Failed</span></div>
+      </div>
+      <div id="drive-folder-row" style="display:none;" class="drive-row">
+        <span class="drive-label">Drive folder:</span>
+        <span id="drive-folder" class="drive-folder"></span>
+      </div>
+    </section>
+    <section class="card" id="settings-section">
+      <button class="collapsible" id="settings-toggle" onclick="toggleSettings()">
+        <span>Settings</span><span class="chevron" id="settings-chevron">▼</span>
+      </button>
+      <div id="settings-body" class="settings-body" style="display:none;">
+        <div class="form-group">
+          <label for="ntfy-topic">ntfy.sh Topic</label>
+          <input type="text" id="ntfy-topic" class="input input-full" placeholder="my-secret-topic">
+        </div>
+        <button class="btn btn-save" onclick="saveSettings()">Save Settings</button>
+        <div id="settings-msg" class="settings-msg" style="display:none;"></div>
+      </div>
+    </section>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; -webkit-text-size-adjust: 100%; }
+body { background-color: #1a1a1a; color: #e8e8e8; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; line-height: 1.5; min-height: 100vh; padding: 16px; }
+.container { max-width: 480px; margin: 0 auto; }
+h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 16px; color: #fff; text-align: center; }
+h2 { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #888; margin-bottom: 12px; }
+.card { background-color: #242424; border-radius: 12px; padding: 16px; margin-bottom: 12px; border: 1px solid #333; }
+.status-row { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
+.status-indicator { width: 14px; height: 14px; border-radius: 50%; background-color: #555; flex-shrink: 0; transition: background-color 0.3s ease; }
+.status-indicator.running { background-color: #2ecc71; box-shadow: 0 0 8px rgba(46,204,113,0.6); }
+.status-label { font-size: 1.1rem; font-weight: 600; }
+.status-details { display: flex; border-top: 1px solid #333; padding-top: 12px; }
+.stat { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 0 4px; }
+.stat + .stat { border-left: 1px solid #333; }
+.stat-value { font-size: 1.25rem; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+.stat-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; color: #777; }
+.photo-container { width: 100%; background-color: #1a1a1a; border-radius: 8px; overflow: hidden; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; border: 1px solid #333; }
+#last-photo { width: 100%; height: 100%; object-fit: cover; display: block; }
+.no-photo { color: #555; font-size: 0.9rem; }
+.btn { display: block; width: 100%; min-height: 52px; font-size: 1.1rem; font-weight: 700; border: none; border-radius: 10px; cursor: pointer; transition: opacity 0.15s ease; }
+.btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.btn-start { background-color: #27ae60; color: #fff; }
+.btn-stop { background-color: #c0392b; color: #fff; }
+.btn-save { background-color: #2980b9; color: #fff; min-height: 48px; font-size: 1rem; }
+.form-group { margin-bottom: 14px; }
+label { display: block; font-size: 0.85rem; font-weight: 500; color: #aaa; margin-bottom: 6px; }
+.input, .select { background-color: #1a1a1a; border: 1px solid #444; border-radius: 8px; color: #e8e8e8; font-size: 1rem; padding: 10px 12px; min-height: 48px; outline: none; -webkit-appearance: none; appearance: none; width: 100%; }
+.input:focus, .select:focus { border-color: #3498db; }
+.interval-row { display: flex; gap: 8px; }
+.interval-row .input { width: 90px; flex-shrink: 0; text-align: center; }
+.interval-row .select { flex: 1; }
+.upload-row { display: flex; }
+.upload-stat { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 8px 4px; }
+.upload-stat + .upload-stat { border-left: 1px solid #333; }
+.upload-value { font-size: 1.5rem; font-weight: 700; color: #fff; font-variant-numeric: tabular-nums; }
+.upload-value.upload-failed { color: #e74c3c; }
+.upload-label { font-size: 0.72rem; text-transform: uppercase; color: #777; }
+.drive-row { margin-top: 12px; padding-top: 12px; border-top: 1px solid #333; display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
+.drive-label { font-size: 0.8rem; color: #777; }
+.drive-folder { font-size: 0.85rem; color: #3498db; word-break: break-all; font-family: monospace; }
+.collapsible { display: flex; justify-content: space-between; align-items: center; width: 100%; background: none; border: none; color: #888; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; cursor: pointer; padding: 0; min-height: 32px; }
+.chevron { font-size: 0.75rem; transition: transform 0.2s ease; }
+.chevron.open { transform: rotate(180deg); }
+.settings-body { margin-top: 14px; padding-top: 14px; border-top: 1px solid #333; }
+.settings-msg { margin-top: 10px; padding: 8px 12px; border-radius: 6px; font-size: 0.85rem; font-weight: 500; }
+.settings-msg.success { background-color: rgba(46,204,113,0.15); color: #2ecc71; border: 1px solid rgba(46,204,113,0.3); }
+.settings-msg.error { background-color: rgba(231,76,60,0.15); color: #e74c3c; border: 1px solid rgba(231,76,60,0.3); }

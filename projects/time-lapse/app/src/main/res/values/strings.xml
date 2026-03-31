@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Time Lapse</string>
+    <string name="label_ntfy_topic">ntfy.sh Topic Name</string>
+    <string name="hint_ntfy_topic">e.g. my-timelapse-abc123</string>
+    <string name="label_drive_account">Google Account for Drive Uploads</string>
+    <string name="hint_drive_account">you@gmail.com</string>
+    <string name="btn_request_permissions">Request Permissions</string>
+    <string name="btn_start_listener">Save &amp; Start Listener</string>
+    <string name="btn_listener_started">Listener Running</string>
+    <string name="permissions_granted">✓ Permissions granted</string>
+    <string name="permissions_denied">Permissions denied — tap button to retry</string>
+    <string name="permissions_missing">Missing permissions: %1$s</string>
+    <string name="listener_running">Listener running at http://%1$s:%2$d\n\nYou can turn the screen off.</string>
+    <string name="web_ui_address">Web UI will be available at http://%1$s:%2$d</string>
+    <string name="setup_title">Time Lapse Setup</string>
+    <string name="setup_subtitle">Configure once, then control from your browser.</string>
+</resources>
